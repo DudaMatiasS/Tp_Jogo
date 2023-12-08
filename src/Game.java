@@ -7,6 +7,7 @@ public class Game {
     private Parser parser;
     private Stack<Room> places = new Stack<>();
     private Room currentRoom;
+
     public Game(){
         createRooms();
         parser = new Parser();
@@ -151,13 +152,18 @@ public class Game {
             return;
         }
         String whatItem = command.getSecondWord();
-
         Item takeItem = currentRoom.getItem(whatItem);
+
         if(takeItem == null){
             System.out.println("This item does not belong in this room");
-        }else{
-            currentRoom.removeItem(whatItem);
-            player.addItemInventory(takeItem);
+        } else {
+            if (player.verifyWeight()) {
+                System.out.println("You have to drop an item to take more");
+                drop(command);
+            } else {
+                currentRoom.removeItem(whatItem);
+                player.addItemInventory(takeItem);
+            }
         }
     }
     private void drop(Command command){

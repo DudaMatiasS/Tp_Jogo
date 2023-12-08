@@ -8,17 +8,21 @@ public class Item {
         this.des = description;
         this.weigth = weight;
     }
-    public String getName(){
+
+    public String getName() {
         return name;
     }
-    public String getDescription(){
+
+    public String getDescription() {
         return des;
     }
-    public int getWeigth(){
+
+    public int getWeigth() {
         return weigth;
     }
-    public String getItemLongDescription(){
-        return "You have "+getName()+"\n"+getDescription()+". It weighs: "+getWeigth()+" grams";
+
+    public String getItemLongDescription() {
+        return "You have " + getName() + "\n" + getDescription() + ". It weighs: "+getWeigth()+" grams";
     }
 
 }

@@ -32,16 +32,20 @@ public class Room {
     public String getLongDescription() {
         return "You are " + getDescription() + ".\n" + getExitString() + "\n\n" + locationItem()+infoItem;
     }
+    
     /**
      * @return The description of the room.
      */
+
     public String getDescription() {
         return description;
     }
+
     public void addItems(String nomeItem, Item item) {
         items.put(nomeItem, item);
-        infoItem="\n"+items.get(nomeItem).getItemLongDescription();
+        infoItem = "\n" + items.get(nomeItem).getItemLongDescription();
     }
+
     public String locationItem() {
         String infoItem = "Items: ";
         for (String locationItem : items.keySet()) {
@@ -49,20 +53,18 @@ public class Room {
         }
         return infoItem;
     }
+
     public Item getItem(String item){
         if (items.get(item) != null) {
             return items.get(item);
-        }else{
+        } else{
             infoItem = " ";
         }
 
         return null;
     }
+
     public void removeItem(String nomeItem){
         items.remove(nomeItem);
     }
-
-
-
-
 }
