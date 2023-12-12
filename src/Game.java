@@ -151,13 +151,16 @@ public class Game {
             return;
         }
         String whatItem = command.getSecondWord();
-
-        Item takeItem = currentRoom.getItem(whatItem);
-        if(takeItem == null){
-            System.out.println("This item does not belong in this room");
+        if(!player.verifyInventoryWeight()) {
+            Item takeItem = currentRoom.getItem(whatItem);
+            if (takeItem == null) {
+                System.out.println("This item does not belong in this room");
+            } else {
+                player.addItemInventory(takeItem);
+                currentRoom.removeItem(whatItem);
+            }
         }else{
-            currentRoom.removeItem(whatItem);
-            player.addItemInventory(takeItem);
+                System.out.println("Your inventory is full, try to drop something before picking up that item\nCall the drop command");
         }
     }
     private void drop(Command command){
@@ -167,9 +170,8 @@ public class Game {
         }
         String whatItem = command.getSecondWord();
         Item itemDropped = currentRoom.getItem(whatItem);
-
-        currentRoom.addItems(whatItem,itemDropped);
         player.removeItemInventory(itemDropped);
+        currentRoom.addItems(whatItem,itemDropped);
     }
     private void look(){
         LocationInfo();
@@ -178,7 +180,7 @@ public class Game {
         System.out.println("You don't know what are you doing, right?");
         System.out.println("Sorry, i will try to help you");
         System.out.println();
-        System.out.println("You are alone infront a house and you have to find where is the bomb...");
+        System.out.println("You are alone in the house and you have to find where is the bomb...");
         System.out.println("Good luck! Don't let the things blow up");
         System.out.println("Your command words are: ");
         parser.showCommands();

@@ -18,7 +18,7 @@ public class Item {
         return weigth;
     }
     public String getItemLongDescription(){
-        return "You have "+getName()+"\n"+getDescription()+". It weighs: "+getWeigth()+" grams";
+        return getDescription()+". It weighs: "+getWeigth()+" grams";
     }
 
 }

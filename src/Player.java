@@ -8,17 +8,13 @@ public class Player {
     private ArrayList<Item> itemInventory= new ArrayList<>();
     public Player(){
         maxWeight =5000;//gramas
+
     }
     private String getWherePlayerIs(){
         return roomPlayer.getLongDescription();
     }
     public void addItemInventory(Item takeItem){
         itemInventory.add(takeItem);
-
-        if (inventoryWeight()>maxWeight){
-            System.out.println("You have to drop an item to take more");
-            //removeItemInventory(takeItem);chamar drop() de game
-        }
     }
     public  void removeItemInventory(Item takeItem){
         itemInventory.remove(takeItem);
@@ -29,5 +25,11 @@ public class Player {
             inventWeight+=i.getWeigth();
         }
         return  inventWeight;
+    }
+    public boolean verifyInventoryWeight(){
+        if(inventoryWeight()>=maxWeight){
+            return true;
+        }
+        return false;
     }
 }
