@@ -35,4 +35,5 @@ public class Player {
         }
         return false;
     }
+    //fazer um metodo getItemInventory 
 }
