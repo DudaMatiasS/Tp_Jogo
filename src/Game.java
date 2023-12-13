@@ -172,7 +172,7 @@ public class Game {
             return;
         }
         String whatItem = command.getSecondWord();
-        Item itemDropped = currentRoom.getItem(whatItem);
+        Item itemDropped = currentRoom.getItem(whatItem);//utilizar getItemInventory
         player.removeItemInventory(itemDropped);
         currentRoom.addItems(whatItem,itemDropped);
     }
