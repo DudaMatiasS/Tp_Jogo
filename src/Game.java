@@ -53,10 +53,10 @@ public class Game {
 
         Item cuttingPliers, key, backpack,codPaper;
 
-        cuttingPliers = new Item("pliers","And you can use to cut a pump wire",2500);
-        key = new Item("key","And you can use to help defuse the bomb",3000);
+        cuttingPliers = new Item("pliers","And you can use to cut a pump wire",25);
+        key = new Item("key","And you can use to help defuse the bomb",30);
         backpack = new Item("backpack","The backpack will help load more items",0);
-        codPaper = new Item("paperCode","Keep this code that is on this paper to help you defuse the bomb",5000);
+        codPaper = new Item("paperCode","Keep this code that is on this paper to help you defuse the bomb",50);
 
 
         livingRoom.addItems("pliers",cuttingPliers);
@@ -106,6 +106,9 @@ public class Game {
             take(command);
         } else if (commandWord.equals("drop")) {
             drop(command);
+        }
+        else if (commandWord.equals("items")) {
+            items();
         }
         return  wantQuit;
     }
@@ -173,6 +176,14 @@ public class Game {
         player.removeItemInventory(itemDropped);
         currentRoom.addItems(whatItem,itemDropped);
     }
+    private void items(){
+        String invItems = "Here are the items in your inventory: ";
+        for(Item inv: player.getItemInventory()){
+            invItems += "\n"+inv.getName() +" -> "+inv.getWeigth()+" grams";
+        }
+        System.out.println(invItems);
+
+    }
     private void look(){
         LocationInfo();
     }
@@ -185,6 +196,7 @@ public class Game {
         System.out.println("Your command words are: ");
         parser.showCommands();
     }
+
     public void LocationInfo(){
         System.out.println(currentRoom.getLongDescription());
     }

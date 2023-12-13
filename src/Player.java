@@ -8,7 +8,6 @@ public class Player {
     private ArrayList<Item> itemInventory= new ArrayList<>();
     public Player(){
         maxWeight =5000;//gramas
-
     }
     private String getWherePlayerIs(){
         return roomPlayer.getLongDescription();
@@ -19,6 +18,10 @@ public class Player {
     public  void removeItemInventory(Item takeItem){
         itemInventory.remove(takeItem);
     }
+    public ArrayList<Item> getItemInventory() {
+        return itemInventory;
+    }
+
     public int inventoryWeight(){
         int inventWeight = 0;
         for(Item i: itemInventory){
