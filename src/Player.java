@@ -10,24 +10,27 @@ public class Player {
     private HashMap<String,Item> inventory = new HashMap<>();
     public Player(){
         maxWeight =5000;//gramas
+
     }
     private String getWherePlayerIs(){
         return roomPlayer.getLongDescription();
     }
-    public void addItemInventory(String nomeItem,Item takeItem){
-        inventory.put(nomeItem,takeItem);
+    public boolean addItemInventory(String nomeItem,Item takeItem){
         if (inventory.containsKey("backpack")) {
             maxWeight =7500;
         }
+        if((inventoryWeight() + takeItem.getWeigth()<= maxWeight)){
+            inventory.put(nomeItem,takeItem);
+            return true;
+        }
+        return false;
     }
     public Item getItemRemoved(String dropItem){
         if (inventory.get(dropItem) != null) {
             return inventory.get(dropItem);
         }
-        return null;
-    }
-    public void removeEspecificItem(String dropItem){
         inventory.remove(dropItem);
+        return null;
     }
     public boolean verifyInventoryItem(String item){
         if(inventory.get(item) != null){
@@ -35,17 +38,12 @@ public class Player {
         }
         return false;
     }
-
     public int inventoryWeight(){
         int invWeigth=0;
         for(Item i: inventory.values()){
             invWeigth+=i.getWeigth();
         }
-
         return invWeigth;
-    }
-    public boolean verifyInventoryWeight(){
-        return inventoryWeight()>maxWeight;
     }
     public String getItemsInventory() {
         String itemInventory = "| ";

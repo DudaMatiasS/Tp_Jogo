@@ -154,16 +154,16 @@ public class Game {
             return;
         }
         String whatItem = command.getSecondWord();
-        if (!player.verifyInventoryWeight()) {
-            Item takeItem = currentRoom.getItem(whatItem);
-            if (takeItem == null) {
-                System.out.println("This item does not belong in this room");
-            } else {
-                player.addItemInventory(whatItem, takeItem);
+        Item takeItem = currentRoom.getItem(whatItem);
+        if (takeItem == null) {
+            System.out.println("This item does not belong in this room");
+        } else {
+            if(player.addItemInventory(whatItem, takeItem)){
                 currentRoom.removeItem(whatItem);
+                System.out.println("Done!");
+            }else{
+                System.out.println("Your inventory is full, try use the drop command");
             }
-       } else {
-            System.out.println("Your inventory is full, try to drop something before picking up that item\nCall the drop command");
         }
 
     }
@@ -172,14 +172,21 @@ public class Game {
             System.out.println("What are you trying to drop?");
             return;
         }
-        String whatItem = command.getSecondWord();
-        if(player.verifyInventoryItem(whatItem)) {
-            Item itemDropped = player.getItemRemoved(whatItem);
-            player.removeEspecificItem(whatItem);
-            currentRoom.addItems(whatItem, itemDropped);
-        }else{
-            System.out.println("You are trying to drop something that you don't have it yet");
+        String whatItem = command.getSecondWord()
+                ;
+        if (whatItem.equals("backpack")) {
+            System.out.println("You cannot drop your backpack");
+            return;
+        }else {
+            if (player.verifyInventoryItem(whatItem)) {
+                Item itemDropped = player.getItemRemoved(whatItem);
+                currentRoom.addItems(whatItem, itemDropped);
+                System.out.println("Done!");
+            } else {
+                System.out.println("You are trying to drop something that you don't have it yet");
+            }
         }
+
     }
     private void items(){
         String invItems = "Here are the items in your inventory: \n"+ player.getItemsInventory();
