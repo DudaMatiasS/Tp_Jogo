@@ -54,10 +54,8 @@ public class Room {
     }
     public String locationItem() {
         String infoItems = "Items: ";
-
         for (String locationItem : items.keySet()) {
-            String infoItem = locationItem;
-            infoItems +="\n"+infoItem+" -> "+items.get(infoItem).getItemLongDescription();
+            infoItems +="\n"+locationItem+" -> "+items.get(locationItem).getItemLongDescription();
         }
         return infoItems;
     }

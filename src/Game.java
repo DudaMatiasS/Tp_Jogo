@@ -53,10 +53,10 @@ public class Game {
 
         Item cuttingPliers, key, backpack,codPaper;
 
-        cuttingPliers = new Item("pliers","And you can use to cut a pump wire",25);
-        key = new Item("key","And you can use to help defuse the bomb",30);
+        cuttingPliers = new Item("pliers","And you can use to cut a pump wire",2000);
+        key = new Item("key","And you can use to help defuse the bomb",3000);
         backpack = new Item("backpack","The backpack will help load more items",0);
-        codPaper = new Item("paperCode","Keep this code that is on this paper to help you defuse the bomb",50);
+        codPaper = new Item("paperCode","Keep this code that is on this paper to help you defuse the bomb",5000);
 
 
         livingRoom.addItems("pliers",cuttingPliers);
@@ -148,23 +148,24 @@ public class Game {
             LocationInfo();
         }
     }
-    private void take(Command command){
-        if(!command.hasSecondWord()){
+    private void take(Command command) {
+        if (!command.hasSecondWord()) {
             System.out.println("What are you trying to take?");
             return;
         }
         String whatItem = command.getSecondWord();
-        if(!player.verifyInventoryWeight()) {
+        if (!player.verifyInventoryWeight()) {
             Item takeItem = currentRoom.getItem(whatItem);
             if (takeItem == null) {
                 System.out.println("This item does not belong in this room");
             } else {
-                player.addItemInventory(takeItem);
+                player.addItemInventory(whatItem, takeItem);
                 currentRoom.removeItem(whatItem);
             }
-        }else{
-                System.out.println("Your inventory is full, try to drop something before picking up that item\nCall the drop command");
+       } else {
+            System.out.println("Your inventory is full, try to drop something before picking up that item\nCall the drop command");
         }
+
     }
     private void drop(Command command){
         if(!command.hasSecondWord()){
@@ -172,17 +173,18 @@ public class Game {
             return;
         }
         String whatItem = command.getSecondWord();
-        Item itemDropped = currentRoom.getItem(whatItem);
-        player.removeItemInventory(itemDropped);
-        currentRoom.addItems(whatItem,itemDropped);
+        if(player.verifyInventoryItem(whatItem)) {
+            Item itemDropped = player.getItemRemoved(whatItem);
+            player.removeEspecificItem(whatItem);
+            currentRoom.addItems(whatItem, itemDropped);
+        }else{
+            System.out.println("You are trying to drop something that you don't have it yet");
+        }
     }
     private void items(){
-        String invItems = "Here are the items in your inventory: ";
-        for(Item inv: player.getItemInventory()){
-            invItems += "\n"+inv.getName() +" -> "+inv.getWeigth()+" grams";
-        }
+        String invItems = "Here are the items in your inventory: \n"+ player.getItemsInventory();
         System.out.println(invItems);
-
+        System.out.println(player.inventoryWeight());
     }
     private void look(){
         LocationInfo();
