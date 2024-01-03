@@ -2,24 +2,24 @@ import java.util.Stack;
 
 public class Game {
     // processa o jogo
-
     private Player player;
     private Parser parser;
     private Stack<Room> places = new Stack<>();
     private Room currentRoom;
+    private Room basement;
     public Game(){
         createRooms();
         parser = new Parser();
         player = new Player();
     }
     private void createRooms(){
-        Room inside, kitchen, bathroom, bedroom, office, basement,livingRoom,secondFloor;
+        Room inside, kitchen, bathroom, bedroom, office,livingRoom,secondFloor;
         inside = new Room("You are already inside the house");
         kitchen = new Room("in the kitchen");
         bathroom = new Room("in the bathroom");
         bedroom = new Room("in the bedroom");
         office = new Room("in the office");
-        basement = new Room("in the basement");
+        basement = new Room("at the basement\nLook at him!\nNow that you are here and you have the necessary items\nThe Bomb is inside of a briefcase");
         livingRoom = new Room("in the LivingRoom");
         secondFloor= new Room("in the second floor");
 
@@ -53,10 +53,10 @@ public class Game {
 
         Item cuttingPliers, key, backpack,codPaper;
 
-        cuttingPliers = new Item("pliers","And you can use to cut a pump wire",25);
-        key = new Item("key","And you can use to help defuse the bomb",30);
+        cuttingPliers = new Item("pliers","And you can use to cut a pump wire",2000);
+        key = new Item("key","And you can use to help defuse the bomb",3000);
         backpack = new Item("backpack","The backpack will help load more items",0);
-        codPaper = new Item("paperCode","Keep this code that is on this paper to help you defuse the bomb",50);
+        codPaper = new Item("paperCode","Keep this code that is on this paper to help you defuse the bomb",5000);
 
 
         livingRoom.addItems("pliers",cuttingPliers);
@@ -77,8 +77,12 @@ public class Game {
     }
     private void printWelcome(){
         System.out.println("Welcome to the Bomb defuse");
-        System.out.println("Bomb defuse is a new game and the name speaks for himself");
-        System.out.println("Have fun trying to defuse the BOMBBBB!");
+        System.out.println("Bomb defuse is a new game and the name speaks for himself!!!");
+        System.out.println();
+        System.out.println("The Bomb are at the basement and you have to collect the following items:\n1. A key to unlock the briefcase\n2. A pliers to cut the pump wires\n3. Finally, a cod paper whic has the cod to defuse the bomb!");
+        System.out.println();
+        System.out.println("Explore the house, have fun, pick up the items and remember, your time is short!");
+        System.out.println();
         System.out.println("Type 'help' if you need help.");
         System.out.println();
         LocationInfo();
@@ -109,6 +113,9 @@ public class Game {
         }
         else if (commandWord.equals("items")) {
             items();
+        }
+        else if (commandWord.equals("use")) {
+            use(command);
         }
         return  wantQuit;
     }
@@ -148,23 +155,24 @@ public class Game {
             LocationInfo();
         }
     }
-    private void take(Command command){
-        if(!command.hasSecondWord()){
+    private void take(Command command) {
+        if (!command.hasSecondWord()) {
             System.out.println("What are you trying to take?");
             return;
         }
         String whatItem = command.getSecondWord();
-        if(!player.verifyInventoryWeight()) {
-            Item takeItem = currentRoom.getItem(whatItem);
-            if (takeItem == null) {
-                System.out.println("This item does not belong in this room");
-            } else {
-                player.addItemInventory(takeItem);
+        Item takeItem = currentRoom.getItem(whatItem);
+        if (takeItem == null) {
+            System.out.println("This item does not belong in this room");
+        } else {
+            if(player.addItemInventory(whatItem, takeItem)){
                 currentRoom.removeItem(whatItem);
+                System.out.println("Done!");
+            }else{
+                System.out.println("Your inventory is full, try use the drop command");
             }
-        }else{
-                System.out.println("Your inventory is full, try to drop something before picking up that item\nCall the drop command");
         }
+
     }
     private void drop(Command command){
         if(!command.hasSecondWord()){
@@ -172,17 +180,43 @@ public class Game {
             return;
         }
         String whatItem = command.getSecondWord();
+
+        if (whatItem.equals("backpack")) {
+            System.out.println("You cannot drop your backpack");
+            return;
+        }else {
+            if (player.verifyInventoryItem(whatItem)) {
+                Item itemDropped = player.getItemRemoved(whatItem);
+                currentRoom.addItems(whatItem, itemDropped);
+                System.out.println("Done!");
+            } else {
+                System.out.println("You are trying to drop something that you don't have it yet");
+            }
+        }
+
+
         Item itemDropped = currentRoom.getItem(whatItem);//utilizar getItemInventory
         player.removeItemInventory(itemDropped);
         currentRoom.addItems(whatItem,itemDropped);
+
+    }
+
+    private void use(Command command){
+        if(currentRoom==basement){
+            if(!command.hasSecondWord()){
+                System.out.println("What are you trying to useee?!");
+                return;
+            }
+        }else{
+            System.out.println("You can't use the use command without being in the basement, remember?");
+            return;
+        }
+
     }
     private void items(){
-        String invItems = "Here are the items in your inventory: ";
-        for(Item inv: player.getItemInventory()){
-            invItems += "\n"+inv.getName() +" -> "+inv.getWeigth()+" grams";
-        }
+        String invItems = "Here are the items in your inventory: \n"+ player.getItemsInventory();
         System.out.println(invItems);
-
+        System.out.println(player.inventoryWeight());
     }
     private void look(){
         LocationInfo();
@@ -200,5 +234,4 @@ public class Game {
     public void LocationInfo(){
         System.out.println(currentRoom.getLongDescription());
     }
-
 }
