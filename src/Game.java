@@ -180,6 +180,7 @@ public class Game {
             return;
         }
         String whatItem = command.getSecondWord();
+
         if (whatItem.equals("backpack")) {
             System.out.println("You cannot drop your backpack");
             return;
@@ -192,6 +193,11 @@ public class Game {
                 System.out.println("You are trying to drop something that you don't have it yet");
             }
         }
+
+
+        Item itemDropped = currentRoom.getItem(whatItem);//utilizar getItemInventory
+        player.removeItemInventory(itemDropped);
+        currentRoom.addItems(whatItem,itemDropped);
 
     }
 
