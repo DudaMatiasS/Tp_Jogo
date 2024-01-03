@@ -4,11 +4,9 @@ public class Room {
     private String description;
     private HashMap<String, Room> room = new HashMap<>();
     private HashMap<String, Item> items = new HashMap<>();
-    private String infoItemDescription;
 
     public Room(String description) {
         this.description = description;
-        infoItemDescription = " ";
     }
 
     public void setExit(String direction, Room sala) {

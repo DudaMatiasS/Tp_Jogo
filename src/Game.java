@@ -1,7 +1,6 @@
 import java.util.Stack;
 
 public class Game {
-    // processa o jogo
     private Player player;
     private Parser parser;
     private Stack<Room> places = new Stack<>();
@@ -11,6 +10,15 @@ public class Game {
         createRooms();
         parser = new Parser();
         player = new Player();
+    }
+    public void play(){
+        printWelcome();
+
+        boolean finished = false;
+        while(!finished){
+            Command command = parser.getCommand();
+            finished = processComand(command);
+        }
     }
     private void createRooms(){
         Room inside, kitchen, bathroom, bedroom, office,livingRoom,secondFloor;
@@ -65,16 +73,6 @@ public class Game {
         office.addItems("paperCode",codPaper);
 
     }
-    public void play(){
-        printWelcome();
-
-        boolean finished = false;
-        while(!finished){
-            Command command = parser.getCommand();
-            finished = processComand(command);
-        }
-
-    }
     private void printWelcome(){
         System.out.println("Welcome to the Bomb defuse");
         System.out.println("Bomb defuse is a new game and the name speaks for himself!!!");
@@ -86,6 +84,9 @@ public class Game {
         System.out.println("Type 'help' if you need help.");
         System.out.println();
         LocationInfo();
+    }
+    public void LocationInfo(){
+        System.out.println(currentRoom.getLongDescription());
     }
 
     private boolean processComand(Command command){
@@ -119,6 +120,15 @@ public class Game {
         }
         return  wantQuit;
     }
+    private void printHelp(){
+        System.out.println("You don't know what are you doing, right?");
+        System.out.println("Sorry, i will try to help you");
+        System.out.println();
+        System.out.println("You are alone in the house and you have to find where is the bomb...");
+        System.out.println("Good luck! Don't let the things blow up");
+        System.out.println("Your command words are: ");
+        parser.showCommands();
+    }
     private void goRoom(Command command){
         //places.push();
         if(!command.hasSecondWord()){
@@ -136,7 +146,6 @@ public class Game {
             currentRoom = nextRoom;
             LocationInfo();
         }
-
     }
     private boolean quit(Command command){
         if (command.hasSecondWord()){
@@ -145,6 +154,9 @@ public class Game {
         }else{
             return true;
         }
+    }
+    private void look(){
+        LocationInfo();
     }
     private void back(Command command){
         if (command.hasSecondWord()){
@@ -194,7 +206,10 @@ public class Game {
         }
 
     }
-
+    private void items(){
+        String invItems = "Here are the items in your inventory: \n"+ player.getItemsInventory();
+        System.out.println(invItems);
+    }
     private void use(Command command){
         if(currentRoom==basement){
             if(!command.hasSecondWord()){
@@ -205,27 +220,7 @@ public class Game {
             System.out.println("You can't use the use command without being in the basement, remember?");
             return;
         }
-
-    }
-    private void items(){
-        String invItems = "Here are the items in your inventory: \n"+ player.getItemsInventory();
-        System.out.println(invItems);
-        System.out.println(player.inventoryWeight());
-    }
-    private void look(){
-        LocationInfo();
-    }
-    private void printHelp(){
-        System.out.println("You don't know what are you doing, right?");
-        System.out.println("Sorry, i will try to help you");
-        System.out.println();
-        System.out.println("You are alone in the house and you have to find where is the bomb...");
-        System.out.println("Good luck! Don't let the things blow up");
-        System.out.println("Your command words are: ");
-        parser.showCommands();
     }
 
-    public void LocationInfo(){
-        System.out.println(currentRoom.getLongDescription());
-    }
+
 }
