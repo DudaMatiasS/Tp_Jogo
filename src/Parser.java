@@ -19,7 +19,6 @@ public class Parser {
         inputLine = this.reader.nextLine();
 
         Scanner tokenizer = new Scanner(inputLine);
-
         if(tokenizer.hasNext()) {
             word1 = tokenizer.next();      // get first word
             contMoviments++;
@@ -28,7 +27,6 @@ public class Parser {
                 // note: we just ignore the rest of the input line.
             }
         }
-
         if(commands.isCommand(word1)) { // ver se o firstCommand é válido
             return new Command(word1, word2);
         }

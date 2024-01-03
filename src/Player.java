@@ -1,19 +1,10 @@
-import java.util.ArrayList;
-
 import java.util.HashMap;
-import java.util.Stack;
-
 public class Player {
-    private Room roomPlayer;
     private int maxWeight;
-
     private HashMap<String,Item> inventory = new HashMap<>();
     public Player(){
         maxWeight =5000;//gramas
 
-    }
-    private String getWherePlayerIs(){
-        return roomPlayer.getLongDescription();
     }
     public boolean addItemInventory(String nomeItem,Item takeItem){
         if (inventory.containsKey("backpack")) {
