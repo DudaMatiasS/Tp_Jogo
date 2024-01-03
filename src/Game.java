@@ -2,24 +2,24 @@ import java.util.Stack;
 
 public class Game {
     // processa o jogo
-
     private Player player;
     private Parser parser;
     private Stack<Room> places = new Stack<>();
     private Room currentRoom;
+    private Room basement;
     public Game(){
         createRooms();
         parser = new Parser();
         player = new Player();
     }
     private void createRooms(){
-        Room inside, kitchen, bathroom, bedroom, office, basement,livingRoom,secondFloor;
+        Room inside, kitchen, bathroom, bedroom, office,livingRoom,secondFloor;
         inside = new Room("You are already inside the house");
         kitchen = new Room("in the kitchen");
         bathroom = new Room("in the bathroom");
         bedroom = new Room("in the bedroom");
         office = new Room("in the office");
-        basement = new Room("in the basement");
+        basement = new Room("at the basement\nLook at him!\nNow that you are here and you have the necessary items\nThe Bomb is inside of a briefcase");
         livingRoom = new Room("in the LivingRoom");
         secondFloor= new Room("in the second floor");
 
@@ -77,8 +77,12 @@ public class Game {
     }
     private void printWelcome(){
         System.out.println("Welcome to the Bomb defuse");
-        System.out.println("Bomb defuse is a new game and the name speaks for himself");
-        System.out.println("Have fun trying to defuse the BOMBBBB!");
+        System.out.println("Bomb defuse is a new game and the name speaks for himself!!!");
+        System.out.println();
+        System.out.println("The Bomb are at the basement and you have to collect the following items:\n1. A key to unlock the briefcase\n2. A pliers to cut the pump wires\n3. Finally, a cod paper whic has the cod to defuse the bomb!");
+        System.out.println();
+        System.out.println("Explore the house, have fun, pick up the items and remember, your time is short!");
+        System.out.println();
         System.out.println("Type 'help' if you need help.");
         System.out.println();
         LocationInfo();
@@ -109,6 +113,9 @@ public class Game {
         }
         else if (commandWord.equals("items")) {
             items();
+        }
+        else if (commandWord.equals("use")) {
+            use(command);
         }
         return  wantQuit;
     }
@@ -172,8 +179,7 @@ public class Game {
             System.out.println("What are you trying to drop?");
             return;
         }
-        String whatItem = command.getSecondWord()
-                ;
+        String whatItem = command.getSecondWord();
         if (whatItem.equals("backpack")) {
             System.out.println("You cannot drop your backpack");
             return;
@@ -185,6 +191,19 @@ public class Game {
             } else {
                 System.out.println("You are trying to drop something that you don't have it yet");
             }
+        }
+
+    }
+
+    private void use(Command command){
+        if(currentRoom==basement){
+            if(!command.hasSecondWord()){
+                System.out.println("What are you trying to useee?!");
+                return;
+            }
+        }else{
+            System.out.println("You can't use the use command without being in the basement, remember?");
+            return;
         }
 
     }
@@ -209,5 +228,4 @@ public class Game {
     public void LocationInfo(){
         System.out.println(currentRoom.getLongDescription());
     }
-
 }
