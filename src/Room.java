@@ -20,9 +20,8 @@ public class Room {
         return null;
     }
     public String getExitString() {
-        String infoExit = "Exits: ";
+        String infoExit = "\nExits ⭢ ";
         //Set<String> chave = room.keySet();set é um objeto que ira guardar as keys(direction) de room
-
         for (String saida : room.keySet()) {
             infoExit += saida + " | ";
         }
@@ -51,9 +50,9 @@ public class Room {
         items.remove(nomeItem);
     }
     public String locationItem() {
-        String infoItems = "Items: ";
+        String infoItems = "Items ⮧ ";
         for (String locationItem : items.keySet()) {
-            infoItems +="\n"+locationItem+" -> "+items.get(locationItem).getItemLongDescription();
+            infoItems +="\n"+locationItem+" ⭢ "+items.get(locationItem).getItemLongDescription();
         }
         return infoItems;
     }

@@ -21,31 +21,32 @@ public class Game {
         }
     }
     private void createRooms(){
-        Room inside, kitchen, bathroom, bedroom, office,livingRoom,secondFloor;
-        inside = new Room("You are already inside the house");
+        Room firstFloor, kitchen, bathroom, bedroom, office,livingRoom,secondFloor;
+        firstFloor = new Room("already in the firstFloor of the house");
         kitchen = new Room("in the kitchen");
         bathroom = new Room("in the bathroom");
         bedroom = new Room("in the bedroom");
         office = new Room("in the office");
-        basement = new Room("at the basement\nLook at him!\nNow that you are here and you have the necessary items\nThe Bomb is inside of a briefcase");
-        livingRoom = new Room("in the LivingRoom");
+        basement = new Room("in the basement. Look at him!\nNow that you are here and you have the necessary items\nThe Bomb is firstFloor the suitcase");
+        livingRoom = new Room("in the livingRoom");
         secondFloor= new Room("in the second floor");
 
+        firstFloor.setExit("secondFloor",secondFloor);
+        firstFloor.setExit("basement",basement);
+        firstFloor.setExit("livingRoom", livingRoom);
+        firstFloor.setExit("kitchen", kitchen);
 
-        inside.setExit("secondFloor",secondFloor);
-        inside.setExit("basement",basement);
-        inside.setExit("LivingRoom", livingRoom);
-        inside.setExit("kitchen", kitchen);
-
-        kitchen.setExit("LivingRoom", livingRoom);
+        kitchen.setExit("livingRoom", livingRoom);
         kitchen.setExit("secondFloor", secondFloor);
+        kitchen.setExit("basement", basement);
 
         livingRoom.setExit("kitchen", kitchen);
         livingRoom.setExit("secondFloor", secondFloor);
+        livingRoom.setExit("basement",basement);
 
-        basement.setExit("inside",inside);
+        basement.setExit("firstFloor",firstFloor);
 
-        secondFloor.setExit("inside", inside);
+        secondFloor.setExit("firstFloor", firstFloor);
         secondFloor.setExit("bedroom", bedroom);
         secondFloor.setExit("bathroom", bathroom);
         secondFloor.setExit("office", office);
@@ -56,36 +57,44 @@ public class Game {
 
         bathroom.setExit("secondFloor",secondFloor);
 
-        currentRoom =  inside;
+        currentRoom =  firstFloor;
 
+        Item cuttingPliers, key, backpack,codPaper,knife,scisors,greekStatue,monaLisaPainting,suitcase;
+        suitcase = new Item("suitcase","This is the case that contains the bomb, to open it you must have the key in your inventory",10000);
+        cuttingPliers = new Item("pliers","Is used to cut a bomb wire",3000);
+        key = new Item("key","Is used to open the suitcase",3000);
+        backpack = new Item("backpack","The backpack will help you to carry more items",0);
+        codPaper = new Item("paperCode","Has a code inside. You will need it to use when you are defusing the bomb",2000);
+        knife = new Item("knife","A knife is used to cut everything",2000);
+        scisors = new Item("scisors","With a scissors you can cut and build different things",2500);
+        greekStatue= new Item("greekStatue","It is possible to see a beautiful statue of Pissed Zeus",5500);
+        monaLisaPainting = new Item("MonaLisaPainting","It is an art painting painted by Leonardo Di Caprio",2300);
 
-        Item cuttingPliers, key, backpack,codPaper;
-
-        cuttingPliers = new Item("pliers","And you can use to cut a pump wire",2000);
-        key = new Item("key","And you can use to help defuse the bomb",3000);
-        backpack = new Item("backpack","The backpack will help load more items",0);
-        codPaper = new Item("paperCode","Keep this code that is on this paper to help you defuse the bomb",5000);
-
-
+        basement.addItems("suitcase",suitcase);
+        firstFloor.addItems("greekStatue",greekStatue);
+        secondFloor.addItems("monaLisaPainting",monaLisaPainting);
+        kitchen.addItems("knife",knife);
+        office.addItems("scisors",scisors);
         livingRoom.addItems("pliers",cuttingPliers);
-        office.addItems("key",key);
+        bathroom.addItems("key",key);
         bedroom.addItems("backpack",backpack);
         office.addItems("paperCode",codPaper);
+
 
     }
     private void printWelcome(){
         System.out.println("Welcome to the Bomb defuse");
-        System.out.println("Bomb defuse is a new game and the name speaks for himself!!!");
+        System.out.println("Bomb defuse is a new game and the name speaks for itself!!!");
         System.out.println();
-        System.out.println("The Bomb are at the basement and you have to collect the following items:\n1. A key to unlock the briefcase\n2. A pliers to cut the pump wires\n3. Finally, a cod paper whic has the cod to defuse the bomb!");
+        System.out.println("The Bomb are at the basement and you have to collect the following items:\n1. A key to unlock the suitcase\n2. A pliers to cut the bomb wires\n3. Finally, a cod paper which has the cod to defuse the bomb!");
         System.out.println();
         System.out.println("Explore the house, have fun, pick up the items and remember, your time is short!");
         System.out.println();
         System.out.println("Type 'help' if you need help.");
         System.out.println();
-        LocationInfo();
+        locationInfo();
     }
-    public void LocationInfo(){
+    public void locationInfo(){
         System.out.println(currentRoom.getLongDescription());
     }
 
@@ -124,9 +133,11 @@ public class Game {
         System.out.println("You don't know what are you doing, right?");
         System.out.println("Sorry, i will try to help you");
         System.out.println();
-        System.out.println("You are alone in the house and you have to find where is the bomb...");
+        System.out.println("The Bomb are at the basement and you have to collect the following items:\n1. A key to unlock the suitcase\n2. A pliers to cut the bomb wires\n3. Finally, a cod paper whic has the cod to defuse the bomb!");
+        System.out.println();
         System.out.println("Good luck! Don't let the things blow up");
         System.out.println("Your command words are: ");
+        System.out.println();
         parser.showCommands();
     }
     private void goRoom(Command command){
@@ -144,7 +155,7 @@ public class Game {
             System.out.println("There is no door!");
         }else{
             currentRoom = nextRoom;
-            LocationInfo();
+            locationInfo();
         }
     }
     private boolean quit(Command command){
@@ -156,7 +167,7 @@ public class Game {
         }
     }
     private void look(){
-        LocationInfo();
+        locationInfo();
     }
     private void back(Command command){
         if (command.hasSecondWord()){
@@ -164,7 +175,7 @@ public class Game {
             return;
         }else{
             currentRoom = places.pop();
-            LocationInfo();
+            locationInfo();
         }
     }
     private void take(Command command) {
@@ -173,22 +184,27 @@ public class Game {
             return;
         }
         String whatItem = command.getSecondWord();
-        Item takeItem = currentRoom.getItem(whatItem);
-        if (takeItem == null) {
-            System.out.println("This item does not belong in this room");
-        } else {
-            if(player.addItemInventory(whatItem, takeItem)){
-                currentRoom.removeItem(whatItem);
-                System.out.println("Done!");
-            }else{
-                System.out.println("Your inventory is full, try use the drop command");
+        if(whatItem.equals("suitcase")){
+            System.out.println("You can't take the suitcase, you need to unlock it\nSoooo, use your key!!!");
+            return;
+        }else {
+            Item takeItem = currentRoom.getItem(whatItem);
+            if (takeItem == null) {
+                System.out.println("This item does not belong in this room");
+            } else {
+                if (player.addItemInventory(whatItem, takeItem)) {
+                    currentRoom.removeItem(whatItem);
+                    System.out.println("Done!");
+                } else {
+                    System.out.println("Your inventory is full\nYou can try looking for a backpack or use the drop command, good luck (you will need) :)");
+                }
             }
         }
 
     }
     private void drop(Command command){
         if(!command.hasSecondWord()){
-            System.out.println("What are you trying to drop?");
+            System.out.println("Drop whaaaaat?");
             return;
         }
         String whatItem = command.getSecondWord();
@@ -206,14 +222,9 @@ public class Game {
             }
         }
 
-
-        Item itemDropped = currentRoom.getItem(whatItem);//utilizar getItemInventory
-        player.removeItemInventory(itemDropped);
-        currentRoom.addItems(whatItem,itemDropped);
-
     }
     private void items(){
-        String invItems = "Here are the items in your inventory: \n"+ player.getItemsInventory();
+        String invItems = "Here are the items in your inventory ⮧ \n"+ player.getItemsInventory();
         System.out.println(invItems);
     }
     private void use(Command command){

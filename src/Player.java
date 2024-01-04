@@ -1,33 +1,30 @@
 import java.util.HashMap;
 public class Player {
-    private int maxWeight;
     private HashMap<String,Item> inventory = new HashMap<>();
     public Player(){
-        maxWeight =5000;//gramas
-
     }
     public boolean addItemInventory(String nomeItem,Item takeItem){
-        if (inventory.containsKey("backpack")) {
-            maxWeight =7500;
-        }
-        if((inventoryWeight() + takeItem.getWeigth()<= maxWeight)){
+        if((inventoryWeight() + takeItem.getWeigth()<= getMaxWeight())){
             inventory.put(nomeItem,takeItem);
             return true;
         }
         return false;
     }
     public Item getItemRemoved(String dropItem){
-        if (inventory.get(dropItem) != null) {
-            return inventory.get(dropItem);
-        }
-        inventory.remove(dropItem);
-        return null;
+        return inventory.remove(dropItem);
     }
     public boolean verifyInventoryItem(String item){
         if(inventory.get(item) != null){
             return true;
         }
         return false;
+    }
+    public int getMaxWeight(){
+        int maxWeight= 5000;//gramas
+        if (inventory.containsKey("backpack")) {
+            maxWeight =7500;
+        }
+        return maxWeight;
     }
     public int inventoryWeight(){
         int invWeigth=0;
