@@ -22,7 +22,7 @@ public class Player {
     public int getMaxWeight(){
         int maxWeight= 5000;//gramas
         if (inventory.containsKey("backpack")) {
-            maxWeight =7500;
+            maxWeight =10500;
         }
         return maxWeight;
     }

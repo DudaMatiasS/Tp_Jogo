@@ -5,11 +5,13 @@ public class Game {
     private Parser parser;
     private Stack<Room> places = new Stack<>();
     private Room currentRoom;
+    private int estado;
     private Room basement;
     public Game(){
         createRooms();
         parser = new Parser();
         player = new Player();
+        estado=0;
     }
     public void play(){
         printWelcome();
@@ -27,7 +29,7 @@ public class Game {
         bathroom = new Room("in the bathroom");
         bedroom = new Room("in the bedroom");
         office = new Room("in the office");
-        basement = new Room("in the basement. Look at him!\nNow that you are here and you have the necessary items\nThe Bomb is firstFloor the suitcase");
+        basement = new Room("in the basement. Look at him!\nNow that you are here and you have the necessary items\nThe Bomb is inside the suitcase");
         livingRoom = new Room("in the livingRoom");
         secondFloor= new Room("in the second floor");
 
@@ -61,10 +63,10 @@ public class Game {
 
         Item cuttingPliers, key, backpack,codPaper,knife,scisors,greekStatue,monaLisaPainting,suitcase;
         suitcase = new Item("suitcase","This is the case that contains the bomb, to open it you must have the key in your inventory",10000);
-        cuttingPliers = new Item("pliers","Is used to cut a bomb wire",3000);
-        key = new Item("key","Is used to open the suitcase",3000);
+        cuttingPliers = new Item("pliers","Is used to cut a bomb wire",3);
+        key = new Item("key","Is used to open the suitcase",300);
         backpack = new Item("backpack","The backpack will help you to carry more items",0);
-        codPaper = new Item("paperCode","Has a code inside. You will need it to use when you are defusing the bomb",2000);
+        codPaper = new Item("paperCode","Has a code inside. You will need it to use when you are defusing the bomb",200);
         knife = new Item("knife","A knife is used to cut everything",2000);
         scisors = new Item("scisors","With a scissors you can cut and build different things",2500);
         greekStatue= new Item("greekStatue","It is possible to see a beautiful statue of Pissed Zeus",5500);
@@ -209,6 +211,7 @@ public class Game {
         }
         String whatItem = command.getSecondWord();
 
+
         if (whatItem.equals("backpack")) {
             System.out.println("You cannot drop your backpack");
             return;
@@ -232,6 +235,66 @@ public class Game {
             if(!command.hasSecondWord()){
                 System.out.println("What are you trying to useee?!");
                 return;
+            }else {
+                String itemUSed = command.getSecondWord();
+                boolean hasItems = player.verifyInventoryItem(itemUSed);
+                if(hasItems){
+                    if(estado==0){
+
+                            if (itemUSed.equals("key")) {
+                                estado = 1;
+                                System.out.println("Alright, you opened the suitcase\nHere is the bomb, I'm praying that you have the necessary items to defuse it.\nUse your items");
+
+                            } else {
+                                System.out.println("You must use the key first to open the suitcase");
+                                return;
+                            }
+
+                    }else if (estado==1) {
+                        if(itemUSed.equals("pliers")){
+                            estado=2;
+                            System.out.println("Cool, you cut the right wire, the only thing left is the last step\nYou can do it ");
+
+                        }else if(itemUSed.equals("paperCode")){
+                            estado =3;
+                            System.out.println("Cool, you entered the code correctly, the only thing left is the last step\nYou can do it ");
+
+                        }else{
+                            System.out.println("You need to cut the wire or enter the code to defuse the bomb");
+                            return;
+                        }
+                    } else if (estado==2) {
+                        if(itemUSed.equals("paperCode")){
+                            estado=4;
+                            System.out.println("You done it\nBut why the bomb is still activated.....");
+                            System.out.println();
+                            System.out.println();
+                            if (estado==4) {
+                                System.out.println("I just wanted to scare you a little haha. SORRY!\nYou defused the bomb\nCONGRATULATIONS YOU WON'T DIE");
+                            }
+                        }else{
+                            System.out.println("You need to enter the code to defuse the bomb");
+                            return;
+                        }
+                    }else if(estado==3) {
+                        if (itemUSed.equals("pliers")) {
+                            estado = 4;
+                            System.out.println("You done it\nBut why the bomb is still activated.....");
+                            System.out.println();
+                            System.out.println();
+                            if (estado == 4) {
+                                System.out.println("I just wanted to scare you a little haha. SORRY!\nYou defused the bomb\nCONGRATULATIONS YOU WON'T DIE");
+
+                            }
+                        } else {
+                            System.out.println("You need to cut the wire");
+                            return;
+                        }
+                    }
+                }else{
+                    System.out.println("You need to capture this item first, then you can use it to defuse the bomb");
+                   return;
+                }
             }
         }else{
             System.out.println("You can't use the use command without being in the basement, remember?");
