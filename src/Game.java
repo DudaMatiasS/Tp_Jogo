@@ -6,22 +6,26 @@ public class Game {
     private Stack<Room> places = new Stack<>();
     private Room currentRoom;
     private int estado;
+    private int timeToExplode;
     private Room basement;
     public Game(){
         createRooms();
         parser = new Parser();
         player = new Player();
         estado=0;
+        timeToExplode=20;
     }
     public void play(){
         printWelcome();
+        boolean isFinished=false;
 
-        boolean finished = false;
-        while(!finished){
+        while(!isFinished){
             Command command = parser.getCommand();
-            finished = processComand(command);
+            isFinished = processComand(command);
         }
+
     }
+
     private void createRooms(){
         Room firstFloor, kitchen, bathroom, bedroom, office,livingRoom,secondFloor;
         firstFloor = new Room("already in the firstFloor of the house");
@@ -103,31 +107,26 @@ public class Game {
     private boolean processComand(Command command){
 
         boolean wantQuit = false;
+        if (parser.getMoviments()==timeToExplode) {
+            System.out.println("THE BOMB EXPLODED!!!\nYou couldn't defuse it in time and you are dead\nByyyeeee!");
+            return true;
+        }
         if (command.isUnknown()){
             System.out.println("I don't know what you mean...");
             return false;
         }
         String commandWord = command.getCommandWord();
-        if(commandWord.equals("help")){
-            printHelp();
-        } else if (commandWord.equals("go")) {
-            goRoom(command);
-        }else if(commandWord.equals("quit")){
-            wantQuit = quit(command);
-        }else if (commandWord.equals("look")) {
-            look();
-        }else if (commandWord.equals("back")){
-            back(command);
-        } else if (commandWord.equals("take")) {
-            take(command);
-        } else if (commandWord.equals("drop")) {
-            drop(command);
-        }
-        else if (commandWord.equals("items")) {
-            items();
-        }
-        else if (commandWord.equals("use")) {
-            use(command);
+        switch (commandWord) {
+            case "help" -> printHelp();
+            case "go" -> goRoom(command);
+            case "quit" -> wantQuit = quit(command);
+            case "look" -> look();
+            case "back" -> back(command);
+            case "take" -> take(command);
+            case "drop" -> drop(command);
+            case "items" -> items();
+            case "use" -> use(command);
+            case "time" -> time();
         }
         return  wantQuit;
     }
@@ -150,7 +149,6 @@ public class Game {
         }
         String direction = command.getSecondWord();
         places.push(currentRoom);
-
         Room nextRoom = currentRoom.getExit(direction);
 
         if(nextRoom == null){
@@ -165,6 +163,7 @@ public class Game {
             System.out.println("Quit what?");
             return false;
         }else{
+            System.out.println("I'm disappointed with you, but we'll see you again... (I HOPE)");
             return true;
         }
     }
@@ -176,8 +175,14 @@ public class Game {
             System.out.println("You can only go back to your previous room");
             return;
         }else{
-            currentRoom = places.pop();
-            locationInfo();
+            if(places.isEmpty()){
+                System.out.println("There's nowhere to go back cumpadre!");
+                return;
+            }else{
+                currentRoom = places.pop();
+                locationInfo();
+            }
+
         }
     }
     private void take(Command command) {
@@ -187,7 +192,7 @@ public class Game {
         }
         String whatItem = command.getSecondWord();
         if(whatItem.equals("suitcase")){
-            System.out.println("You can't take the suitcase, you need to unlock it\nSoooo, use your key!!!");
+            System.out.println("You can't take the suitcase, you need to unlock it");
             return;
         }else {
             Item takeItem = currentRoom.getItem(whatItem);
@@ -227,7 +232,7 @@ public class Game {
 
     }
     private void items(){
-        String invItems = "Here are the items in your inventory ⮧ \n"+ player.getItemsInventory();
+        String invItems = player.getItemsInventory();
         System.out.println(invItems);
     }
     private void use(Command command){
@@ -240,15 +245,14 @@ public class Game {
                 boolean hasItems = player.verifyInventoryItem(itemUSed);
                 if(hasItems){
                     if(estado==0){
+                        if (itemUSed.equals("key")) {
+                            estado = 1;
+                            System.out.println("Alright, you opened the suitcase\nHere is the bomb, I'm praying that you have the necessary items to defuse it.\nUse your items");
 
-                            if (itemUSed.equals("key")) {
-                                estado = 1;
-                                System.out.println("Alright, you opened the suitcase\nHere is the bomb, I'm praying that you have the necessary items to defuse it.\nUse your items");
-
-                            } else {
-                                System.out.println("You must use the key first to open the suitcase");
-                                return;
-                            }
+                        } else {
+                            System.out.println("You must use the key first to open the suitcase");
+                            return;
+                        }
 
                     }else if (estado==1) {
                         if(itemUSed.equals("pliers")){
@@ -271,6 +275,7 @@ public class Game {
                             System.out.println();
                             if (estado==4) {
                                 System.out.println("I just wanted to scare you a little haha. SORRY!\nYou defused the bomb\nCONGRATULATIONS YOU WON'T DIE");
+
                             }
                         }else{
                             System.out.println("You need to enter the code to defuse the bomb");
@@ -301,6 +306,9 @@ public class Game {
             return;
         }
     }
+    private void time(){
+        System.out.println("You have "+(timeToExplode-parser.getMoviments())+" moves to defuse the bomb");
 
+    }
 
 }

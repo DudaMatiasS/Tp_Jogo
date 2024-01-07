@@ -34,11 +34,15 @@ public class Player {
         return invWeigth;
     }
     public String getItemsInventory() {
-        String itemInventory = "| ";
-        for (String i : inventory.keySet()) {
-            itemInventory += i + " | ";
+        String itemInventory;
+        if(inventory.isEmpty()){
+            itemInventory ="Opss, there's nothing here rsrsrs";
+        }else{
+            itemInventory="Here are the items in your inventory ⮧ \n";
+            for (String i : inventory.keySet()) {
+                itemInventory+= i+" | ";
+            }
         }
         return itemInventory;
     }
-
 }

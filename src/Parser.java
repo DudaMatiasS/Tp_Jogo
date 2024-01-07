@@ -22,6 +22,12 @@ public class Parser {
         if(tokenizer.hasNext()) {
             word1 = tokenizer.next();      // get first word
             contMoviments++;
+            if(word1.equals("time")){
+                contMoviments--;
+            }
+            if (word1.equals("use")) {
+                contMoviments++;
+            }
             if(tokenizer.hasNext()) {
                 word2 = tokenizer.next();      // get second word
                 // note: we just ignore the rest of the input line.
@@ -37,5 +43,8 @@ public class Parser {
     }
     public void showCommands(){
         commands.showAll();
+    }
+    public int getMoviments(){
+        return contMoviments;
     }
 }
