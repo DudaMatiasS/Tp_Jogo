@@ -67,10 +67,10 @@ public class Game {
 
         Item cuttingPliers, key, backpack,codPaper,knife,scisors,greekStatue,monaLisaPainting,suitcase;
         suitcase = new Item("suitcase","This is the case that contains the bomb, to open it you must have the key in your inventory",10000);
-        cuttingPliers = new Item("pliers","Is used to cut a bomb wire",3);
-        key = new Item("key","Is used to open the suitcase",300);
+        cuttingPliers = new Item("pliers","Is used to cut a bomb wire",3000);
+        key = new Item("key","Is used to open the suitcase",3000);
         backpack = new Item("backpack","The backpack will help you to carry more items",0);
-        codPaper = new Item("paperCode","Has a code inside. You will need it to use when you are defusing the bomb",200);
+        codPaper = new Item("paperCode","Has a code inside. You will need it to use when you are defusing the bomb",2000);
         knife = new Item("knife","A knife is used to cut everything",2000);
         scisors = new Item("scisors","With a scissors you can cut and build different things",2500);
         greekStatue= new Item("greekStatue","It is possible to see a beautiful statue of Pissed Zeus",5500);
@@ -173,11 +173,9 @@ public class Game {
     private void back(Command command){
         if (command.hasSecondWord()){
             System.out.println("You can only go back to your previous room");
-            return;
         }else{
             if(places.isEmpty()){
                 System.out.println("There's nowhere to go back cumpadre!");
-                return;
             }else{
                 currentRoom = places.pop();
                 locationInfo();
@@ -193,7 +191,6 @@ public class Game {
         String whatItem = command.getSecondWord();
         if(whatItem.equals("suitcase")){
             System.out.println("You can't take the suitcase, you need to unlock it");
-            return;
         }else {
             Item takeItem = currentRoom.getItem(whatItem);
             if (takeItem == null) {
@@ -216,10 +213,8 @@ public class Game {
         }
         String whatItem = command.getSecondWord();
 
-
         if (whatItem.equals("backpack")) {
             System.out.println("You cannot drop your backpack");
-            return;
         }else {
             if (player.verifyInventoryItem(whatItem)) {
                 Item itemDropped = player.getItemRemoved(whatItem);
@@ -251,7 +246,6 @@ public class Game {
 
                         } else {
                             System.out.println("You must use the key first to open the suitcase");
-                            return;
                         }
 
                     }else if (estado==1) {
@@ -265,45 +259,41 @@ public class Game {
 
                         }else{
                             System.out.println("You need to cut the wire or enter the code to defuse the bomb");
-                            return;
                         }
                     } else if (estado==2) {
                         if(itemUSed.equals("paperCode")){
                             estado=4;
-                            System.out.println("You done it\nBut why the bomb is still activated.....");
+                            System.out.println("YOU DONE IT\nBut why the bomb is still activated.....");
                             System.out.println();
                             System.out.println();
                             if (estado==4) {
-                                System.out.println("I just wanted to scare you a little haha. SORRY!\nYou defused the bomb\nCONGRATULATIONS YOU WON'T DIE");
+                                System.out.println("I just wanted to scare you a little haha. SORRY!\nABSOLUTE CINEMA\nYou defused the bomb CONGRATULATIONS!\nYOU WON'T DIE");
 
                             }
                         }else{
                             System.out.println("You need to enter the code to defuse the bomb");
-                            return;
                         }
                     }else if(estado==3) {
                         if (itemUSed.equals("pliers")) {
                             estado = 4;
-                            System.out.println("You done it\nBut why the bomb is still activated.....");
+                            System.out.println("YOU DONE IT\nBut why the bomb is still activated.....");
                             System.out.println();
                             System.out.println();
                             if (estado == 4) {
-                                System.out.println("I just wanted to scare you a little haha. SORRY!\nYou defused the bomb\nCONGRATULATIONS YOU WON'T DIE");
+                                System.out.println("I just wanted to scare you a little haha. SORRY!\nABSOLUTE CINEMA\nYou defused the bomb CONGRATULATIONS!\nYOU WON'T DIE");
 
                             }
                         } else {
                             System.out.println("You need to cut the wire");
-                            return;
+
                         }
                     }
                 }else{
                     System.out.println("You need to capture this item first, then you can use it to defuse the bomb");
-                   return;
                 }
             }
         }else{
-            System.out.println("You can't use the use command without being in the basement, remember?");
-            return;
+            System.out.println("You can't use the use command without being in the basement my friend!");
         }
     }
     private void time(){
