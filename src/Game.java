@@ -89,8 +89,8 @@ public class Game {
 
     }
     private void printWelcome(){
-        System.out.println("Welcome to the Bomb defuse");
-        System.out.println("Bomb defuse is a new game and the name speaks for itself!!!");
+        System.out.println("Welcome to the Bomber");
+        System.out.println("Bomber is a new game and the name speaks for itself!!!");
         System.out.println();
         System.out.println("The Bomb are at the basement and you have to collect the following items:\n1. A key to unlock the suitcase\n2. A pliers to cut the bomb wires\n3. Finally, a cod paper which has the cod to defuse the bomb!");
         System.out.println();
