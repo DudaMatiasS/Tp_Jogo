@@ -84,6 +84,10 @@ public class Game {
         bathroom.addItems("key",key);
         bedroom.addItems("backpack",backpack);
         office.addItems("paperCode",codPaper);
+
+
+
+
     }
     private void printWelcome(){
         System.out.println("Welcome to the Bomber");
@@ -189,7 +193,6 @@ public class Game {
                 currentRoom = places.pop();
                 locationInfo();
             }
-
         }
     }
     private void take(Command command) {

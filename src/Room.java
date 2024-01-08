@@ -52,7 +52,7 @@ public class Room {
     public String locationItem() {
         String infoItems = "Items \u2ba7 ";
         for (String locationItem : items.keySet()) {
-            infoItems +="\n"+locationItem+" \u2b62 "+items.get(locationItem).getItemLongDescription();
+            infoItems +="\n"+items.get(locationItem).getItemLongDescription();
         }
         return infoItems;
     }
