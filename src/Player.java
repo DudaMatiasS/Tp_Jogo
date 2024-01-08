@@ -43,6 +43,6 @@ public class Player {
                 itemInventory+= i+" | ";
             }
         }
-        return itemInventory;
+        return itemInventory +"\nTotal Weight: "+inventoryWeight();
     }
 }
