@@ -1,6 +1,6 @@
 public class CommandWords {
     //essa classe reconhece os comandos digitados, ou seja, ela é responsável quando for adicionar um comando novo, o parser so ira interpretar o comando
-    private static final String[] validCommands = {"go", "quit", "help", "look","back","take","drop","items","use","time"};
+    private static final String[] validCommands = {"go", "quit", "help", "look","back","take","drop","items","use","moves"};
     public CommandWords(){
     }
     public boolean isCommand(String commandAvaliable) {

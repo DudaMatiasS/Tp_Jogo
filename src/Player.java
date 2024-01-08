@@ -3,9 +3,9 @@ public class Player {
     private HashMap<String,Item> inventory = new HashMap<>();
     public Player(){
     }
-    public boolean addItemInventory(String nomeItem,Item takeItem){
+    public boolean addItemInventory(String nameItem,Item takeItem){
         if((inventoryWeight() + takeItem.getWeigth()<= getMaxWeight())){
-            inventory.put(nomeItem,takeItem);
+            inventory.put(nameItem,takeItem);
             return true;
         }
         return false;
@@ -38,7 +38,7 @@ public class Player {
         if(inventory.isEmpty()){
             itemInventory ="Opss, there's nothing here rsrsrs";
         }else{
-            itemInventory="Here are the items in your inventory ⮧ \n";
+            itemInventory="Here are the items in your inventory \u2ba7 \n";
             for (String i : inventory.keySet()) {
                 itemInventory+= i+" | ";
             }

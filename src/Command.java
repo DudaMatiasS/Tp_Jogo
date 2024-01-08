@@ -18,7 +18,4 @@ public class Command {
     {
         return (secondWord != null);
     }
-    public String getQuit(){
-        return "quit";
-    }
 }
