@@ -1,48 +1,48 @@
 import java.util.HashMap;
 public class Player {
     private HashMap<String,Item> inventory = new HashMap<>();
-    public Player(){
+    public Player() {
     }
-    public boolean addItemInventory(String nameItem,Item takeItem){
-        if((inventoryWeight() + takeItem.getWeigth()<= getMaxWeight())){
-            inventory.put(nameItem,takeItem);
+    public boolean addItemInventory(String nameItem, Item takeItem) {
+        if((inventoryWeight() + takeItem.getWeight() <= getMaxWeight())) {
+            inventory.put(nameItem, takeItem);
             return true;
         }
         return false;
     }
-    public Item getItemRemoved(String dropItem){
+    public Item getItemRemoved(String dropItem) {
         return inventory.remove(dropItem);
     }
-    public boolean verifyInventoryItem(String item){
-        if(inventory.get(item) != null){
+    public boolean verifyInventoryItem(String item) {
+        if(inventory.get(item) != null) {
             return true;
         }
         return false;
     }
-    public int getMaxWeight(){
-        int maxWeight= 5000;//gramas
+    public int getMaxWeight() {
+        int maxWeight = 5000; //gramas
         if (inventory.containsKey("backpack")) {
-            maxWeight =10500;
+            maxWeight = 10500;
         }
         return maxWeight;
     }
-    public int inventoryWeight(){
-        int invWeigth=0;
-        for(Item i: inventory.values()){
-            invWeigth+=i.getWeigth();
+    public int inventoryWeight() {
+        int invWeigth = 0;
+        for(Item i : inventory.values()) {
+            invWeigth += i.getWeight();
         }
         return invWeigth;
     }
     public String getItemsInventory() {
         String itemInventory;
-        if(inventory.isEmpty()){
-            itemInventory ="Opss, there's nothing here rsrsrs";
-        }else{
-            itemInventory="Here are the items in your inventory \u2ba7 \n";
+        if(inventory.isEmpty()) {
+            itemInventory = "Opss, there's nothing here rsrsrs";
+        } else {
+            itemInventory = "Here are the items in your inventory \u2ba7 \n";
             for (String i : inventory.keySet()) {
-                itemInventory+= i+" | ";
+                itemInventory += i +" | ";
             }
         }
-        return itemInventory +"\nTotal Weight: "+inventoryWeight();
+        return itemInventory + "\nTotal Weight: " + inventoryWeight();
     }
 }

@@ -11,7 +11,7 @@ public class CommandWords {
         }
         return false;
     }
-    public void showAll(){
+    public void showAll() {
         String allComands = String.join(" | ",validCommands);
         System.out.println(allComands);
     }

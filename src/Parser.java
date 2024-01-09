@@ -1,4 +1,7 @@
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Scanner;
+
 public class Parser {
     // é responsavel por interpretar os comandos digitado!
     private CommandWords commands;
@@ -7,7 +10,7 @@ public class Parser {
     public Parser(){
         commands = new CommandWords();
         reader = new Scanner(System.in);
-        contMoviments =0;
+        contMoviments = 0;
     }
     public Command getCommand() {
         String inputLine;
@@ -42,5 +45,16 @@ public class Parser {
     }
     public int getMoviments(){
         return contMoviments;
+    }
+    public String time(LocalTime initialHour) {
+        LocalTime now = LocalTime.now();
+        long hoursDifference = ChronoUnit.HOURS.between(initialHour, now);
+        long minutesDifference = ChronoUnit.MINUTES.between(initialHour, now);
+        long secondsDifference = ChronoUnit.SECONDS.between(initialHour, now);
+
+        return formatTime(hoursDifference) + ":" + formatTime(minutesDifference) + ":" + formatTime(secondsDifference);
+    }
+    private String formatTime(long time) {
+        return time > 9 ? String.valueOf(time) : "0" + time;
     }
 }
